@@ -1,0 +1,92 @@
+{
+  "name": "react-rxstore-watch",
+  "version": "1.0.0",
+  "description": "Official React bindings of RxStore Watch",
+  "repository": "blankart/react-rxstore-watch",
+  "main": "dist/react-rxstore-watch.js",
+  "types": "types/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "types"
+  ],
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "scripts": {
+    "clean": "npm run clean:build && npm run clean:types",
+    "clean:build": "rimraf dist es lib",
+    "clean:types": "rimraf types",
+    "dev": "nodemon",
+    "dev:ts": "tsc -w",
+    "test": "jest --no-cache",
+    "lint": "eslint src/**/*.ts",
+    "build": "rollup -c",
+    "build:types": "tsc src/index.ts --declaration --emitDeclarationOnly --outDir types --jsx react",
+    "prepublishOnly": "npm run lint && npm test && npm run clean && npm run build && npm run build:types"
+  },
+  "keywords": [
+    "rxstore",
+    "watch",
+    "react",
+    "store",
+    "state",
+    "management"
+  ],
+  "author": "Nico Mendoza",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/runtime": "^7.13.10",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "rxjs": "^6.6.7",
+    "rxstore-watch": "^1.1.6",
+    "typescript": "^4.2.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.13.13",
+    "@babel/plugin-transform-runtime": "^7.13.10",
+    "@babel/preset-env": "^7.13.12",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-commonjs": "^18.0.0",
+    "@rollup/plugin-node-resolve": "^11.2.1",
+    "@rollup/plugin-replace": "^2.4.2",
+    "@rollup/plugin-typescript": "^8.2.1",
+    "@testing-library/react": "^11.2.5",
+    "@types/jest": "^26.0.22",
+    "@types/react": "^17.0.3",
+    "@typescript-eslint/eslint-plugin": "^4.19.0",
+    "@typescript-eslint/parser": "^4.19.0",
+    "eslint": "^7.23.0",
+    "eslint-plugin-react": "^7.23.1",
+    "jest": "^26.6.3",
+    "nodemon": "^2.0.7",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.43.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript-paths": "^1.2.2",
+    "rollup-plugin-typescript2": "^0.30.0",
+    "ts-jest": "^26.5.4",
+    "ts-node": "^9.1.1",
+    "tsconfig-paths": "^3.9.0",
+    "tslib": "^2.1.0"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "src"
+    ],
+    "exec": "node -r tsconfig-paths/register -r ts-node/register src/index.ts",
+    "ext": "ts, js"
+  },
+  "test": "jest",
+  "jest": {
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/"
+    ],
+    "transform": {
+      ".*": "babel-jest"
+    }
+  }
+}
