@@ -1,6 +1,6 @@
 {
   "name": "react-rxstore-watch",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Official React bindings of RxStore Watch",
   "repository": "blankart/react-rxstore-watch",
   "main": "dist/react-rxstore-watch.js",
@@ -42,7 +42,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "rxjs": "^6.6.7",
-    "rxstore-watch": "^1.1.6",
+    "rxstore-watch": "^1.1.7",
     "typescript": "^4.2.3"
   },
   "devDependencies": {
