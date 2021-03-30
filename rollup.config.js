@@ -9,7 +9,7 @@ import pkg from './package.json'
 
 const config = {
     input: 'src/index.ts',
-    external: Object.keys( pkg.peerDependencies || {} ).concat( 'react-dom' ),
+    external: Object.keys( pkg.peerDependencies || {} ).concat( 'react-dom', 'react', 'rxjs', 'rxstore-watch' ),
     output: {
         file: "dist/react-rxstore-watch.js",
         format: 'umd',
