@@ -5,7 +5,7 @@ import { WithConnectProps } from "../types"
 import useStore from "./use-store"
 
 /**
- * Higher-order creator for generating a components 
+ * Higher-order creator for generating components 
  * connected to the store.
  * 
  * @example

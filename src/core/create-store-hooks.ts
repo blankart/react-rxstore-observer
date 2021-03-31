@@ -1,6 +1,5 @@
 import * as React from "react"
-import { RxStore, Action } from "rxstore-observer"
-import { RxDispatch } from "rxstore-observer/types/types"
+import { RxStore, Action, RxDispatch } from "rxstore-observer"
 import useStore from "./use-store"
 
 /**

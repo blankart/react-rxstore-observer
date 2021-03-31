@@ -6,10 +6,9 @@ import { InjectorConfig } from '../types'
  * Consumer factory, used to connect existing
  * React Context to the store. The generated
  * consumer will subscribe to any actions dispatched
- * which can be used to perform side effects to
- * the passed Context. By doing this, the store
- * would be able to control the context values
- * just by dispatching certain action objects.
+ * which can be used to perform side effects By doing 
+ * this, the store would be able to control the context's 
+ * value by dispatching certain action objects.
  * 
  * @example
  * ```jsx
@@ -58,10 +57,6 @@ const inject = <
         throw new Error( '`context` is not passed inside the injector config.' )
     }
 
-    if ( ! injectorConfig.type || typeof injectorConfig.type !== 'string' ) {
-        throw new Error( 'Passed `type` value inside the injector config is not valid.' )
-    }
-
     if ( ! injectorConfig.subscribe || typeof injectorConfig.subscribe !== 'function' ) {
         throw new Error( '`subscribe` must be of type function inside the injector config' )
     }
@@ -78,7 +73,7 @@ const inject = <
             }
 
             const unsubscribe = store.subscribe( action => {
-                if ( action.type !== injectorConfig.type ) {
+                if ( action.type && action.type !== injectorConfig.type ) {
                     return
                 }
 
