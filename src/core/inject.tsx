@@ -1,0 +1,97 @@
+import * as React from "react"
+import { Action, RxStore } from "rxstore-observer"
+import { InjectorConfig } from '../types'
+
+/**
+ * Consumer factory, used to connect existing
+ * React Context to the store. The generated
+ * consumer will subscribe to any actions dispatched
+ * which can be used to perform side effects to
+ * the passed Context. By doing this, the store
+ * would be able to control the context values
+ * just by dispatching certain action objects.
+ * 
+ * @example
+ * ```jsx
+ * import * as React from 'react'
+ * import { inject } from 'react-rxstore-observer'
+ * import ViewportContext, { Provider } from './viewport-context'
+ * import { render } from 'react-dom'
+ * import store, { useDispatch } from './store'
+ * 
+ * const ConnectedViewportContext = inject(store, {
+ *      context: ViewportContext,
+ *      type: "CHANGE_VIEWPORT",
+ *      subscribe: (props, { payload: { width }}) => {
+ *          props.changeViewport( width )
+ *      },
+ *      setup: (props, getState, dispatch) => {
+ *          
+ *      }
+ * })
+ * 
+ * render(
+ *      <Provider>
+ *          <ConnectedViewportContext>
+ *              <App/>
+ *          </ConnectedViewportContext>
+ *      </Provider>,
+ *      document.getElementById('root')
+ * )
+ * 
+ * ```
+ * 
+ * @param {RxStore<S, T>} store 
+ * @param {InjectorConfig} injectorConfig 
+ * @return {React.ComponentType} consumer component.
+ */
+const inject = <
+    S extends Record<string, any>, 
+    T extends Action, 
+    U extends any
+>( store: RxStore<S, T>, injectorConfig: InjectorConfig<S, T, U> ) => {
+    if ( typeof injectorConfig !== 'object' ) {
+        throw new Error( 'Parameter passed not a valid injector config. Make sure to return an object.' )
+    }
+
+    if ( ! injectorConfig.context ) {
+        throw new Error( '`context` is not passed inside the injector config.' )
+    }
+
+    if ( ! injectorConfig.type || typeof injectorConfig.type !== 'string' ) {
+        throw new Error( 'Passed `type` value inside the injector config is not valid.' )
+    }
+
+    if ( ! injectorConfig.subscribe || typeof injectorConfig.subscribe !== 'function' ) {
+        throw new Error( '`subscribe` must be of type function inside the injector config' )
+    }
+
+    if ( ! store.getState || ! store.dispatch ) {
+        throw new Error( 'Parameter passed is not a valid store.' )
+    }
+
+    const ProviderWithInjectedContext = ( { children }: { children: JSX.Element[] | JSX.Element } ) => {
+        const injectorContext = React.useContext( injectorConfig.context )
+        React.useEffect( () => {
+            if ( injectorConfig.setup ) {
+                injectorConfig.setup( injectorContext, store.getState, store.dispatch )
+            }
+
+            const unsubscribe = store.subscribe( action => {
+                if ( action.type !== injectorConfig.type ) {
+                    return
+                }
+
+                injectorConfig.subscribe( injectorContext, action )
+            } )
+
+            return () => unsubscribe()
+        }, [] )
+
+        return <>{ children }</>
+    }
+
+    return ProviderWithInjectedContext
+}
+
+export default inject

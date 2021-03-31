@@ -1,6 +1,7 @@
 import * as React from "react"
-import { RxStore, Action } from "rxstore-watch"
-import { RxDispatch } from "rxstore-watch/types/types"
+import { RxStore, Action } from "rxstore-observer"
+import { RxDispatch } from "rxstore-observer/types/types"
+import { WithConnectProps } from "../types"
 import useStore from "./use-store"
 
 /**
@@ -9,7 +10,7 @@ import useStore from "./use-store"
  * 
  * @example
  * ```jsx
- * import { createConnector } from 'react-rxstore-watch'
+ * import { createConnector } from 'react-rxstore-observer'
  * import store from '../store'
  * 
  * const withStore = createConnector( store );
@@ -37,19 +38,23 @@ import useStore from "./use-store"
  * @return Higher Order Component with store.
  */
 const createConnector = <
-    S extends Record<string, any>,
-    T extends Action
->(
-    store: RxStore<S, T>
-) => ( mapSelectorFunction: ( s: S ) => Record<string, any> ) => (
-    mapDispatchFunction: (
-        dispatch: RxDispatch<T> 
-    ) => Record<string, ( a?: any ) => any>
-) => <T extends Record<string, any>>( Component: React.ComponentType<T> ) => {
-    return function NewComponent( props: T ): JSX.Element  {
-        const [ state, setState ] = React.useState( mapSelectorFunction( store.getState() ) )
-        useStore( store, setState, mapSelectorFunction )
-        return <Component { ...props } { ...state } { ...mapDispatchFunction( store.dispatch ) } />
+    S,
+    T extends Action 
+>( 
+    store: RxStore<S, T>,
+) => {
+    return <P, M  = Record<string, any>>( mapSelectorFunction: ( s: S ) => M ) => {
+        return <D extends Record<string, any>>( mapDispatchFunction: ( dispatch: RxDispatch<T> ) => D ) => {
+            return ( Component: React.ComponentType<WithConnectProps<P, M, D>> ) => {
+                const NewComponent: React.FC<P> = props => {
+                    const [ state, setState ] = React.useState( mapSelectorFunction( store.getState() ) )
+                    useStore( store, setState, mapSelectorFunction )
+                    return <Component { ...props } { ...state } { ...mapDispatchFunction( store.dispatch ) }/> 
+                }
+
+                return NewComponent as React.ComponentType<P>
+            }
+        }
     }
 }
 

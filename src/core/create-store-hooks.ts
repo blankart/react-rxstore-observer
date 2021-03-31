@@ -1,6 +1,6 @@
 import * as React from "react"
-import { RxStore, Action } from "rxstore-watch"
-import { RxDispatch } from "rxstore-watch/types/types"
+import { RxStore, Action } from "rxstore-observer"
+import { RxDispatch } from "rxstore-observer/types/types"
 import useStore from "./use-store"
 
 /**
@@ -11,7 +11,7 @@ import useStore from "./use-store"
  * @example
  * ```
  * 
- * import { createStoreHooks } from 'react-rxstore-watch'
+ * import { createStoreHooks } from 'react-rxstore-observer'
  * import store from '../store'
  * 
  * const [useSelector, useDispatch] = createStoreHooks( store );
@@ -36,21 +36,21 @@ import useStore from "./use-store"
  */
 const createStoreHooks = <
     S extends Record<string, any>,
-    T extends Action
+    T extends Action,
 >(
     store: RxStore<S, T>
-): [( f: ( s: S ) => any ) => any, () => RxDispatch<T>] => {
-    const useSelector = ( mapSelectorFunction: ( s: S ) => any ) => {
+) => {
+    const useSelector = <U>( mapSelectorFunction: ( s: S ) => U ): U => {
         const [ state, setState ] = React.useState( mapSelectorFunction( store.getState() ) )
         useStore( store, setState, mapSelectorFunction )
         return state
     }
 
-    const useDispatch = (): RxStore<S, T>["dispatch"] => {
+    const useDispatch = (): RxDispatch<T> => {
         return store.dispatch
     }
 
-    return [ useSelector, useDispatch ]
+    return [ useSelector, useDispatch ] as [ typeof useSelector, typeof useDispatch ]
 }
 
 export default createStoreHooks

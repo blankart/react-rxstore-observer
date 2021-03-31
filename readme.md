@@ -1,12 +1,12 @@
 # React RxStore Watch
 
-This is the official React bindings for [RxStore Watch](https://github.com/blankart/rxstore-watch).
+This is the official React bindings for [RxStore Watch](https://github.com/blankart/rxstore-observer).
 
 This project is currently in development.
 
 ### Usage:
 ```jsx
-import { createStoreHooks } from 'react-rxstore-watch'
+import { createStoreHooks } from 'react-rxstore-observer'
 import store from './store'
 
 const [useStore, useDispatch] = createStoreHooks(store);

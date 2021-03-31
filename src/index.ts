@@ -1,1 +1,1 @@
-export { createStoreHooks, createConnector } from './core'
+export { createStoreHooks, createConnector, inject } from './core'

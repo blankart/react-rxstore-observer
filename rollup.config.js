@@ -9,11 +9,11 @@ import pkg from './package.json'
 
 const config = {
     input: 'src/index.ts',
-    external: Object.keys( pkg.peerDependencies || {} ).concat( 'react-dom', 'react', 'rxjs', 'rxstore-watch' ),
+    external: Object.keys( pkg.peerDependencies || {} ).concat( 'react-dom', 'react', 'rxjs', 'rxstore-observer' ),
     output: {
-        file: "dist/react-rxstore-watch.js",
+        file: "dist/react-rxstore-observer.js",
         format: 'umd',
-        name: 'ReactRxStoreWatch',
+        name: 'ReactRxStoreObserver',
         globals: {
             react: 'React',
             'react-dom': 'ReactDOM',

@@ -1,13 +1,13 @@
 import * as React from 'react'
-import { createRxStore } from 'rxstore-watch'
-import { reducer, Action, State } from '../../templates/mock-store'
+import { createRxStore } from 'rxstore-observer'
+import { reducer } from '../../templates/mock-store'
 import createStoreHooks from '../create-store-hooks'
 import { act, render } from '@testing-library/react'
 
 describe( 'createConnector', () => {
     test( 'Render counts and store values', () => {
         const dummyStore = createRxStore( reducer )
-        const [ useSelect ] = createStoreHooks<State, Action>( dummyStore )
+        const [ useSelect ] = createStoreHooks( dummyStore )
         const mockFunctionChildComponent1 = jest.fn()
         const mockFunctionChildComponent2 = jest.fn()
         const mockFunctionChildComponent3 = jest.fn()

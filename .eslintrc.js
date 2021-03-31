@@ -20,6 +20,7 @@ module.exports =  { //eslint-disable-line
         jxs: true,
     },
     "rules": {
+        "@typescript-eslint/explicit-module-boundary-types": "off",
         "react/prop-types": "off",
         "react/no-unescaped-entities": "off",
         "indent": "off",

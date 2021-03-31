@@ -1,41 +1,54 @@
 import * as React from 'react'
-import { createRxStore } from 'rxstore-watch'
-import { reducer, Action, State } from '../../templates/mock-store'
+import { createRxStore } from 'rxstore-observer'
+import { reducer } from '../../templates/mock-store'
 import createConnector from '../create-connector'
 import { act, render } from '@testing-library/react'
 
 describe( 'createConnector', () => {
     test( 'Render counts and store values', () => {
         const dummyStore = createRxStore( reducer )
-        const connect = createConnector<State, Action>( dummyStore )
+        const connect = createConnector( dummyStore )
         const mockFunctionChildComponent1 = jest.fn()
         const mockFunctionChildComponent2 = jest.fn()
         const mockFunctionChildComponent3 = jest.fn()
 
-        const ChildComponent1 = connect( ( { dummyField1 } ) => ( { dummyField1 } ) )( () => ( {} ) )( ( { dummyField1 } ) => {
+        const ConnectedChildComponent1 = connect( ( { dummyField1 } ) => ( { dummyField1 } ) )( () => ( {} ) )( ( { dummyField1 } ) => {
             mockFunctionChildComponent1()
             return (
                 <div data-testid="dummyField1">{ dummyField1 }</div>
             )
         } )
-        const ChildComponent2 = connect( ( { dummyField2 } ) => ( { dummyField2 } ) )( () => ( {} ) )( ( { dummyField2 } ) => {
+
+        interface ChildComponent2Props {
+            value: string
+            dummyField2?: string
+        }
+
+        const ChildComponent2: React.FC<ChildComponent2Props> = ( { dummyField2, value } ) => {
             mockFunctionChildComponent2()
             return (
-                <div data-testid="dummyField2">{ dummyField2 }</div>
+                <>
+                    <div data-testid="dummyField2">{ dummyField2 }</div>
+                    <div>{ value }</div>
+                </>
             )
-        } )
-        const ChildComponent3 = connect( ( { dummyField3 } ) => ( { dummyField3 } ) )( () => ( {} ) )( ( { dummyField3 } ) => {
+        }
+
+        const ConnectedChildComponent2 = connect<ChildComponent2Props>( ( { dummyField2 } ) => ( { dummyField2 } ) )( () => ( {} ) )( ChildComponent2 )
+
+        const ConnectedChildComponent3 = connect( ( { dummyField3 } ) => ( { dummyField3 } ) )( () => ( {} ) )( ( { dummyField3 } ) => {
             mockFunctionChildComponent3()
             return (
                 <div data-testid="dummyField3">{ dummyField3 }</div>
             )
         } )
+
         const ParentComponent = () => {
             return (
                 <>
-                    <ChildComponent1/>
-                    <ChildComponent2/>
-                    <ChildComponent3/>
+                    <ConnectedChildComponent1/>
+                    <ConnectedChildComponent2 value={ 'value' }/>
+                    <ConnectedChildComponent3/>
                 </>
             )
         }
