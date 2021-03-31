@@ -25,7 +25,7 @@ describe( 'inject', () => {
         }
 
         const dummyStore = createRxStore( combineReducers<{ main: State, value: string }, ValueAction | Action>( { main:reducer, value: valueReducer } ) )
-        const connect = ( createConnector( dummyStore ) )
+        const connect = createConnector( dummyStore ) 
         const DummyContext = React.createContext<{value: string, setValue: React.Dispatch<string>}>( { value: '', setValue: ( a: any ) => a } )
 
         const DummyProvider = ( { children }: { children: JSX.Element[] | JSX.Element } ) => {
