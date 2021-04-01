@@ -1,6 +1,6 @@
-# React RxStore Watch
+# React RxStore Observer
 
-This is the official React bindings for [RxStore Watch](https://github.com/blankart/rxstore-observer).
+This is the official React bindings for [RxStore Observer](https://github.com/blankart/rxstore-observer).
 
 This project is currently in development.
 

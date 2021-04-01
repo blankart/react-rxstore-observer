@@ -66,7 +66,7 @@ describe( 'inject', () => {
             <DummyProvider>
                 <InjectedDummyProvider>
                     <DummyContextConsumer/>
-                    <ConnectedComponent/>
+                    <ConnectedComponent/> 
                 </InjectedDummyProvider>
             </DummyProvider> 
         )
@@ -80,7 +80,7 @@ describe( 'inject', () => {
 
         expect( mockFunction2 ).toBeCalledTimes( 2 )
         expect( mockFunction1 ).toBeCalledTimes( 2 )
-        expect( mockFunction3 ).toBeCalledTimes( 1 )
+        expect( mockFunction3 ).toBeCalledTimes( 2 )
         expect( getByTestId( 'dummyField1' ).innerHTML ).toBe( 'Changed value' )
         expect( getByTestId( 'dummyField2' ).innerHTML ).toBe( 'Changed value' )
         expect( getByTestId( 'dummyField3' ).innerHTML ).toBe( 'Changed value' )

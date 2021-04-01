@@ -1,6 +1,6 @@
 {
   "name": "react-rxstore-observer",
-  "version": "1.0.1",
+  "version": "1.0.7",
   "description": "Official React bindings of RxStore Observer",
   "repository": "blankart/react-rxstore-observer",
   "main": "dist/react-rxstore-observer.js",
@@ -43,7 +43,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "rxjs": "^6.6.7",
-    "rxstore-observer": "^1.0.1",
+    "rxstore-observer": "^1.0.3",
     "typescript": "^4.2.3"
   },
   "devDependencies": {
@@ -67,11 +67,8 @@
     "rimraf": "^3.0.2",
     "rollup": "^2.43.1",
     "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-typescript-paths": "^1.2.2",
-    "rollup-plugin-typescript2": "^0.30.0",
     "ts-jest": "^26.5.4",
     "ts-node": "^9.1.1",
-    "tsconfig-paths": "^3.9.0",
     "tslib": "^2.1.0"
   },
   "nodemonConfig": {

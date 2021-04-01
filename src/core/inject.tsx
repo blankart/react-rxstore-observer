@@ -65,11 +65,12 @@ const inject = <
         throw new Error( 'Parameter passed is not a valid store.' )
     }
 
-    const ProviderWithInjectedContext = ( { children }: { children: JSX.Element[] | JSX.Element } ) => {
+    const ProviderWithInjectedContext = ( { children }: { children: React.ReactNode } ) => {
         const injectorContext = React.useContext( injectorConfig.context )
         React.useEffect( () => {
+            let setup = () => true
             if ( injectorConfig.setup ) {
-                injectorConfig.setup( injectorContext, store.getState, store.dispatch )
+                setup = injectorConfig.setup( injectorContext, store.getState, store.dispatch )
             }
 
             const unsubscribe = store.subscribe( action => {
@@ -80,8 +81,13 @@ const inject = <
                 injectorConfig.subscribe( injectorContext, action )
             } )
 
-            return () => unsubscribe()
-        }, [] )
+            return () => {
+                unsubscribe()
+                if ( typeof setup === 'function' ) {
+                    setup()
+                }
+            }
+        }, [ injectorContext ] )
 
         return <>{ children }</>
     }
