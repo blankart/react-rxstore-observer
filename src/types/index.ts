@@ -38,11 +38,12 @@ export interface InjectorConfig<S, T extends Action, P extends any> {
      */
     subscribe: ( p: P, a: T ) => any
     /**
-     * Setup function which will BEFORE running
+     * Setup function which will run BEFORE running
      * the subscribe function.
      * 
      * If it returns a function, it will run
-     * as cleanup function.
+     * as a cleanup to every state change inside
+     * the context.
      * 
      * The first argument is the current value of the
      * Context. 

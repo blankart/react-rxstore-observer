@@ -23,9 +23,12 @@ import { InjectorConfig } from '../types'
  *      type: "CHANGE_VIEWPORT",
  *      subscribe: (props, { payload: { width }}) => {
  *          props.changeViewport( width )
+ *          return () => {
+ *              // Cleanup function for every context value changes.
+ *          }
  *      },
  *      setup: (props, getState, dispatch) => {
- *          
+ *          // Do something before running the subscription.
  *      }
  * })
  * 
